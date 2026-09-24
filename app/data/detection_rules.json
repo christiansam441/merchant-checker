@@ -1,0 +1,279 @@
+{
+  "processors": [
+    {
+      "name": "Stripe",
+      "signals": [
+        {
+          "type": "script_src",
+          "pattern": "https?://js\\.stripe\\.com/",
+          "weight": 85,
+          "evidence_label": "Stripe JavaScript library"
+        },
+        {
+          "type": "iframe_src",
+          "pattern": "https?://(?:js|hooks)\\.stripe\\.com/",
+          "weight": 90,
+          "evidence_label": "Stripe-hosted payment frame"
+        },
+        {
+          "type": "form_action",
+          "pattern": "https?://checkout\\.stripe\\.com/",
+          "weight": 95,
+          "evidence_label": "Stripe Checkout form"
+        },
+        {
+          "type": "js_global",
+          "pattern": "^Stripe$",
+          "weight": 70,
+          "evidence_label": "Stripe browser object"
+        },
+        {
+          "type": "cookie",
+          "pattern": "^__stripe_(?:mid|sid)$",
+          "weight": 65,
+          "evidence_label": "Stripe browser cookie"
+        }
+      ]
+    },
+    {
+      "name": "PayPal",
+      "signals": [
+        {
+          "type": "script_src",
+          "pattern": "https?://www\\.paypal\\.com/sdk/js",
+          "weight": 90,
+          "evidence_label": "PayPal JavaScript SDK"
+        },
+        {
+          "type": "iframe_src",
+          "pattern": "https?://(?:www\\.)?paypal\\.com/",
+          "weight": 75,
+          "evidence_label": "PayPal-hosted frame"
+        },
+        {
+          "type": "form_action",
+          "pattern": "https?://www\\.paypal\\.com/cgi-bin/webscr",
+          "weight": 95,
+          "evidence_label": "PayPal payment form"
+        },
+        {
+          "type": "js_global",
+          "pattern": "^paypal$",
+          "weight": 70,
+          "evidence_label": "PayPal browser object"
+        },
+        {
+          "type": "page_text",
+          "pattern": "(?i)\\bpay (?:with|using) paypal\\b",
+          "weight": 35,
+          "evidence_label": "PayPal payment text"
+        }
+      ]
+    },
+    {
+      "name": "Braintree",
+      "signals": [
+        {
+          "type": "script_src",
+          "pattern": "https?://js\\.braintreegateway\\.com/",
+          "weight": 90,
+          "evidence_label": "Braintree JavaScript library"
+        },
+        {
+          "type": "iframe_src",
+          "pattern": "https?://assets\\.braintreegateway\\.com/",
+          "weight": 90,
+          "evidence_label": "Braintree-hosted payment frame"
+        },
+        {
+          "type": "js_global",
+          "pattern": "^braintree$",
+          "weight": 75,
+          "evidence_label": "Braintree browser object"
+        },
+        {
+          "type": "page_text",
+          "pattern": "(?i)\\bbraintree(?:gateway)?\\b",
+          "weight": 25,
+          "evidence_label": "Braintree reference in page content"
+        }
+      ]
+    },
+    {
+      "name": "Square",
+      "signals": [
+        {
+          "type": "script_src",
+          "pattern": "https?://(?:sandbox\\.)?web\\.squarecdn\\.com/",
+          "weight": 90,
+          "evidence_label": "Square Web Payments SDK"
+        },
+        {
+          "type": "form_action",
+          "pattern": "https?://(?:checkout\\.)?square\\.site/",
+          "weight": 90,
+          "evidence_label": "Square-hosted checkout form"
+        },
+        {
+          "type": "link_href",
+          "pattern": "https?://square\\.link/",
+          "weight": 80,
+          "evidence_label": "Square payment link"
+        },
+        {
+          "type": "js_global",
+          "pattern": "^Square\\.payments$",
+          "weight": 70,
+          "evidence_label": "Square browser object"
+        }
+      ]
+    },
+    {
+      "name": "Shopify Payments",
+      "signals": [
+        {
+          "type": "iframe_src",
+          "pattern": "https?://pay\\.shopify\\.com/",
+          "weight": 90,
+          "evidence_label": "Shopify-hosted payment frame"
+        },
+        {
+          "type": "form_action",
+          "pattern": "https?://[^/]+/payments/config",
+          "weight": 70,
+          "evidence_label": "Shopify payment configuration endpoint"
+        },
+        {
+          "type": "js_global",
+          "pattern": "^Shopify\\.PaymentButton$",
+          "weight": 55,
+          "evidence_label": "Shopify payment button object"
+        },
+        {
+          "type": "page_text",
+          "pattern": "(?i)\\bshopify payments\\b",
+          "weight": 45,
+          "evidence_label": "Shopify Payments reference in page content"
+        },
+        {
+          "type": "header",
+          "pattern": "(?i)^x-shopify-(?:stage|api-version):",
+          "weight": 20,
+          "evidence_label": "Shopify response header"
+        }
+      ]
+    },
+    {
+      "name": "Adyen",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://checkoutshopper-[^/]+\\.adyen\\.com/checkoutshopper/sdk/", "weight": 90, "evidence_label": "Adyen Web SDK"},
+        {"type": "js_global", "pattern": "^AdyenCheckout$", "weight": 80, "evidence_label": "Adyen Checkout browser object"},
+        {"type": "iframe_src", "pattern": "https?://[^/]*adyen\\.com/", "weight": 70, "evidence_label": "Adyen-hosted payment frame"}
+      ]
+    },
+    {
+      "name": "Authorize.Net",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://jstest\\.authorize\\.net/v1/Accept\\.js|https?://js\\.authorize\\.net/v1/Accept\\.js", "weight": 90, "evidence_label": "Authorize.Net Accept.js library"},
+        {"type": "js_global", "pattern": "^Accept\\.dispatchData$", "weight": 75, "evidence_label": "Authorize.Net Accept dispatch object"},
+        {"type": "form_action", "pattern": "https?://accept\\.authorize\\.net/payment/payment", "weight": 95, "evidence_label": "Authorize.Net hosted payment form"}
+      ]
+    },
+    {
+      "name": "Klarna",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://x\\.klarnacdn\\.net/kp/lib/v1/api\\.js", "weight": 90, "evidence_label": "Klarna Payments library"},
+        {"type": "js_global", "pattern": "^Klarna$", "weight": 75, "evidence_label": "Klarna browser object"},
+        {"type": "iframe_src", "pattern": "https?://[^/]*klarna\\.com/", "weight": 75, "evidence_label": "Klarna-hosted payment frame"}
+      ]
+    },
+    {
+      "name": "Affirm",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://cdn1(?:-sandbox)?\\.affirm\\.com/js/v2/affirm\\.js", "weight": 90, "evidence_label": "Affirm JavaScript library"},
+        {"type": "js_global", "pattern": "^affirm$", "weight": 75, "evidence_label": "Affirm browser object"},
+        {"type": "page_text", "pattern": "(?i)\\b(?:pay with affirm|affirm.{0,40}pay over time)\\b", "weight": 35, "evidence_label": "Affirm payment wording"}
+      ]
+    },
+    {
+      "name": "Afterpay",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://js\\.(?:sandbox\\.)?afterpay\\.com/afterpay-[^/]+\\.js", "weight": 90, "evidence_label": "Afterpay JavaScript library"},
+        {"type": "js_global", "pattern": "^AfterPay$", "weight": 75, "evidence_label": "Afterpay browser object"},
+        {"type": "page_text", "pattern": "(?i)\\b(?:pay with afterpay|afterpay.{0,40}pay in 4)\\b", "weight": 35, "evidence_label": "Afterpay payment wording"}
+      ]
+    },
+    {
+      "name": "Amazon Pay",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://static-[^/]+\\.payments-amazon\\.com/", "weight": 90, "evidence_label": "Amazon Pay JavaScript library"},
+        {"type": "js_global", "pattern": "^amazon\\.Pay$", "weight": 80, "evidence_label": "Amazon Pay browser object"},
+        {"type": "page_text", "pattern": "(?i)\\bpay with amazon\\b", "weight": 40, "evidence_label": "Amazon Pay wording"}
+      ]
+    },
+    {
+      "name": "Apple Pay",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://apple-pay-sdk\\.apple\\.com/", "weight": 90, "evidence_label": "Apple Pay SDK"},
+        {"type": "js_global", "pattern": "^ApplePaySession$", "weight": 80, "evidence_label": "Apple Pay browser object"},
+        {"type": "page_text", "pattern": "(?i)\\bapple pay\\b", "weight": 35, "evidence_label": "Apple Pay wording"}
+      ]
+    },
+    {
+      "name": "Google Pay",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://pay\\.google\\.com/gp/p/js/pay\\.js", "weight": 90, "evidence_label": "Google Pay JavaScript library"},
+        {"type": "js_global", "pattern": "^google\\.payments\\.api$", "weight": 80, "evidence_label": "Google Pay browser object"},
+        {"type": "page_text", "pattern": "(?i)\\bgoogle pay\\b", "weight": 35, "evidence_label": "Google Pay wording"}
+      ]
+    },
+    {
+      "name": "Checkout.com",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://cdn\\.checkout\\.com/js/framesv2(?:\\.min)?\\.js", "weight": 90, "evidence_label": "Checkout.com Frames library"},
+        {"type": "js_global", "pattern": "^Frames\\.init$", "weight": 75, "evidence_label": "Checkout.com Frames initialization object"},
+        {"type": "iframe_src", "pattern": "https?://[^/]*checkout\\.com/", "weight": 70, "evidence_label": "Checkout.com-hosted frame"}
+      ]
+    },
+    {
+      "name": "Razorpay",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://checkout\\.razorpay\\.com/v1/checkout\\.js", "weight": 95, "evidence_label": "Razorpay Checkout library"},
+        {"type": "js_global", "pattern": "^Razorpay$", "weight": 80, "evidence_label": "Razorpay browser object"},
+        {"type": "form_action", "pattern": "https?://api\\.razorpay\\.com/", "weight": 75, "evidence_label": "Razorpay payment form"}
+      ]
+    },
+    {
+      "name": "Mollie",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://js\\.mollie\\.com/v1/mollie\\.js", "weight": 95, "evidence_label": "Mollie Components library"},
+        {"type": "js_global", "pattern": "^Mollie$", "weight": 80, "evidence_label": "Mollie browser object"},
+        {"type": "iframe_src", "pattern": "https?://[^/]*mollie\\.com/", "weight": 70, "evidence_label": "Mollie-hosted payment frame"}
+      ]
+    },
+    {
+      "name": "Worldpay",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://payments\\.worldpay\\.com/resources/", "weight": 90, "evidence_label": "Worldpay payment library"},
+        {"type": "js_global", "pattern": "^Worldpay$", "weight": 75, "evidence_label": "Worldpay browser object"},
+        {"type": "form_action", "pattern": "https?://secure\\.worldpay\\.com/", "weight": 90, "evidence_label": "Worldpay hosted payment form"}
+      ]
+    },
+    {
+      "name": "2Checkout/Verifone",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://2pay-js\\.2checkout\\.com/v1/2pay\\.js", "weight": 95, "evidence_label": "2Checkout 2Pay.js library"},
+        {"type": "js_global", "pattern": "^TwoPayClient$", "weight": 80, "evidence_label": "2Checkout browser object"},
+        {"type": "form_action", "pattern": "https?://secure\\.2checkout\\.com/", "weight": 90, "evidence_label": "2Checkout hosted payment form"}
+      ]
+    },
+    {
+      "name": "Paddle",
+      "signals": [
+        {"type": "script_src", "pattern": "https?://cdn\\.paddle\\.com/paddle/v2/paddle\\.js", "weight": 95, "evidence_label": "Paddle Billing library"},
+        {"type": "js_global", "pattern": "^Paddle$", "weight": 80, "evidence_label": "Paddle browser object"},
+        {"type": "iframe_src", "pattern": "https?://[^/]*paddle\\.com/", "weight": 70, "evidence_label": "Paddle-hosted checkout frame"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "crawl_keywords": ["refund", "return", "terms", "privacy", "contact", "shipping"],
+  "checklist_items": [
+    {
+      "key": "refund_policy",
+      "name": "Refund or return policy",
+      "signals": [
+        {"type": "link_text", "pattern": "(?i)\\b(?:refund|returns?)\\b", "evidence_label": "Policy link text"},
+        {"type": "url", "pattern": "(?i)/(?:refund|returns?)(?:[-_/]?(?:policy|information))?", "evidence_label": "Policy URL"},
+        {"type": "page_text", "pattern": "(?i)\\b(?:refund|return) policy\\b|\\breturns? within \\d+ days\\b", "evidence_label": "Policy content"}
+      ]
+    },
+    {
+      "key": "terms",
+      "name": "Terms of service or terms and conditions",
+      "signals": [
+        {"type": "link_text", "pattern": "(?i)\\bterms (?:of service|and conditions|& conditions)\\b", "evidence_label": "Terms link text"},
+        {"type": "url", "pattern": "(?i)/(?:terms|terms-of-service|terms-and-conditions)(?:/|$)", "evidence_label": "Terms URL"},
+        {"type": "page_text", "pattern": "(?i)\\bterms (?:of service|and conditions)\\b", "evidence_label": "Terms content"}
+      ]
+    },
+    {
+      "key": "privacy_policy",
+      "name": "Privacy policy",
+      "signals": [
+        {"type": "link_text", "pattern": "(?i)\\bprivacy policy\\b", "evidence_label": "Privacy link text"},
+        {"type": "url", "pattern": "(?i)/(?:privacy|privacy-policy)(?:/|$)", "evidence_label": "Privacy URL"},
+        {"type": "page_text", "pattern": "(?i)\\bprivacy policy\\b", "evidence_label": "Privacy content"}
+      ]
+    },
+    {
+      "key": "contact_information",
+      "name": "Contact information",
+      "signals": [
+        {"type": "link_text", "pattern": "(?i)\\bcontact(?: us)?\\b", "evidence_label": "Contact page link"},
+        {"type": "url", "pattern": "(?i)/contact(?:-us)?(?:/|$)", "evidence_label": "Contact page URL"},
+        {"type": "email", "pattern": "(?i)\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b", "evidence_label": "Visible email address"},
+        {"type": "phone", "pattern": "(?x)(?:\\+?1[ .-]?)?(?:\\(\\d{3}\\)|\\d{3})[ .-]\\d{3}[ .-]\\d{4}", "evidence_label": "Visible phone number"},
+        {"type": "address", "pattern": "(?i)\\b\\d{1,6} [A-Z0-9 .'-]+ (?:street|st|avenue|ave|road|rd|boulevard|blvd|drive|dr|lane|ln|way|suite|ste)\\b", "evidence_label": "Visible physical address"}
+      ]
+    },
+    {
+      "key": "shipping_policy",
+      "name": "Shipping policy",
+      "signals": [
+        {"type": "link_text", "pattern": "(?i)\\bshipping(?: policy| information)?\\b", "evidence_label": "Shipping link text"},
+        {"type": "url", "pattern": "(?i)/shipping(?:-policy|-information)?(?:/|$)", "evidence_label": "Shipping policy URL"},
+        {"type": "page_text", "pattern": "(?i)\\bshipping policy\\b|\\bships? within \\d+ business days\\b", "evidence_label": "Shipping policy content"}
+      ]
+    },
+    {
+      "key": "crypto_payments",
+      "name": "Crypto payment options",
+      "signals": [
+        {"type": "page_text", "pattern": "(?i)\\bpay (?:with|using) (?:bitcoin|ethereum|cryptocurrency|crypto)\\b", "evidence_label": "Crypto payment wording"},
+        {"type": "link_text", "pattern": "(?i)\\b(?:bitcoin|crypto) (?:checkout|payment|wallet)\\b", "evidence_label": "Crypto payment button"},
+        {"type": "url", "pattern": "(?i)/(?:bitcoin|crypto)(?:-checkout|-payment|/)", "evidence_label": "Crypto checkout URL"}
+      ]
+    }
+  ],
+  "platforms": [
+    {
+      "name": "Shopify",
+      "signals": [
+        {"type": "script_src", "pattern": "(?i)(?:cdn\\.shopify\\.com|/cdn/shop/)", "evidence_label": "Shopify asset", "weight": 80},
+        {"type": "header", "pattern": "(?i)^x-shopify-", "evidence_label": "Shopify response header", "weight": 90},
+        {"type": "html", "pattern": "(?i)\\bmyshopify\\.com\\b", "evidence_label": "Shopify store reference", "weight": 65}
+      ]
+    },
+    {
+      "name": "WooCommerce",
+      "signals": [
+        {"type": "script_src", "pattern": "(?i)/wp-content/plugins/woocommerce/", "evidence_label": "WooCommerce plugin asset", "weight": 90},
+        {"type": "html", "pattern": "(?i)\\bwoocommerce-(?:cart|checkout|page)\\b", "evidence_label": "WooCommerce page markup", "weight": 70},
+        {"type": "cookie", "pattern": "(?i)^woocommerce_", "evidence_label": "WooCommerce cookie", "weight": 75}
+      ]
+    },
+    {
+      "name": "BigCommerce",
+      "signals": [
+        {"type": "script_src", "pattern": "(?i)cdn\\d*\\.bigcommerce\\.com", "evidence_label": "BigCommerce asset", "weight": 90},
+        {"type": "html", "pattern": "(?i)\\bstencil-utils\\b|data-cart-itemid", "evidence_label": "BigCommerce storefront markup", "weight": 70}
+      ]
+    },
+    {
+      "name": "Wix",
+      "signals": [
+        {"type": "script_src", "pattern": "(?i)(?:static\\.parastorage\\.com|static\\.wixstatic\\.com)", "evidence_label": "Wix asset", "weight": 85},
+        {"type": "meta_generator", "pattern": "(?i)^Wix\\.com", "evidence_label": "Wix generator metadata", "weight": 90}
+      ]
+    },
+    {
+      "name": "Squarespace",
+      "signals": [
+        {"type": "script_src", "pattern": "(?i)static\\d*\\.squarespace\\.com", "evidence_label": "Squarespace asset", "weight": 85},
+        {"type": "html", "pattern": "(?i)data-squarespace-|Static\\.SQUARESPACE_CONTEXT", "evidence_label": "Squarespace page markup", "weight": 75}
+      ]
+    },
+    {
+      "name": "Magento",
+      "signals": [
+        {"type": "script_src", "pattern": "(?i)/static/(?:version\\d+/)?frontend/", "evidence_label": "Magento frontend asset", "weight": 80},
+        {"type": "html", "pattern": "(?i)\\bMagento_[A-Za-z]+\\b|mage/cookies", "evidence_label": "Magento page markup", "weight": 75}
+      ]
+    }
+  ],
+  "derived_items": [
+    {"key": "ecommerce_platform", "name": "Ecommerce platform detected", "evidence_label": "Detected platform"},
+    {"key": "multiple_processors", "name": "Multiple payment processors detected", "evidence_label": "Detected payment processor"}
+  ]
+}
